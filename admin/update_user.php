@@ -90,46 +90,44 @@ include('include/dashboard/sidebar.php');
                                         <input type="file" name="image" id="inputClientCompany" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <input type="submit" name="add_user" class="btn btn-primary">
+                                        <input type="submit" name="update_user" class="btn btn-primary" value="Update">
                                     </div>
                                 </div>
                             </div>
                         </form>
                         <?php
-                        if (isset($_POST['add_user'])) {
+                        if (isset($_POST['update_user'])) {
                             $name       = $_POST['name'];
                             $email      = $_POST['email'];
                             $phone      = $_POST['phone'];
-                            $password   = $_POST['password'];
-                            $repassword = $_POST['repassword'];
 
-                            if ($password == $repassword) {
-                                $address    = $_POST['address'];
-                                $role       = $_POST['role'];
-                                $status     = $_POST['status'];
-                                // image upload 
-                                $image       = $_FILES['image']['name'];
-                                $temp_locat = $_FILES['image']['tmp_name'];
-                                $rand = rand(0, 99999);
-                                $rand_two = rand(0, 99999);
-                                $final_img = $image;
-                                if (!empty($image)) {
-                                    $final_img = $rand . "_" . $rand_two . "_" . $image;
-                                }
-                                //move image
-                                move_uploaded_file($temp_locat, "dist/img/user/" . $final_img);
+                            $user_id   = $data['user_id'];
+                            $password   = $data['password'];
+                            $join_date   = $data['join_date'];
 
-                                $data_insert = "INSERT INTO user(user_name,email,phone,password,user_address,user_role,user_status,profile,join_date) VALUES('$name','$email','$phone','$password','$address','$role','$status','$final_img', now())";
-
-                                $sql = mysqli_query($db, $data_insert);
-                            } else {
-                                echo "Your Password is wrong";
+                            $address    = $_POST['address'];
+                            $role       = $_POST['role'];
+                            $status     = $_POST['status'];
+                            // image upload 
+                            $image       = $_FILES['image']['name'];
+                            $temp_locat = $_FILES['image']['tmp_name'];
+                            $rand = rand(0, 99999);
+                            $rand_two = rand(0, 99999);
+                            $final_img = $image;
+                            if (!empty($image)) {
+                                $final_img = $rand . "_" . $rand_two . "_" . $image;
                             }
-                        }
+                            //move image
+                            move_uploaded_file($temp_locat, "dist/img/user/" . $final_img);
+
+                            $data_update = "UPDATE user SET user_name='$name',email='$email',phone='$phone',password='$password',user_address='$address',user_role='$role',user_status='$status',profile='$final_img',join_date='$join_date' WHERE user_id = '$user_id'";
+
+                            $sql = mysqli_query($db, $data_update);
+                        } 
                         ?>
                     </div>
                     <!-- /.card-body -->
-                </div>
+                </div>\
             </div>
         </div>
     </div>
