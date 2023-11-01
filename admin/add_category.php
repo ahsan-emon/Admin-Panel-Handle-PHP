@@ -8,7 +8,9 @@ include('include/dashboard/sidebar.php');
 ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+    <div class="container">
 
+    </div>
 </div>
 <!-- footer include  -->
 <?php

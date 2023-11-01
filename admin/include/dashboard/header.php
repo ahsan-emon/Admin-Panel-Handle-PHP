@@ -1,6 +1,11 @@
 <?php
 include('db.php');
 ob_start();
+session_start();
+// if log out then other page can not accessable 
+if (empty($_SESSION['user_id']) && empty($_SESSION['user_name'])) {
+    header('location:index.php');
+}
 ?>
 <!DOCTYPE html>
 <html>

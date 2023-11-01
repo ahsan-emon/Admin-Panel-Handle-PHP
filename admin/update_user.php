@@ -85,12 +85,19 @@ include('include/dashboard/sidebar.php');
                                                                 } ?>>Inactive</option>
                                         </select>
                                     </div>
+                                    <?php
+                                    if ($data['profile'] != null) {
+                                    ?>
+                                        <div>
+                                            <img width="100px" src="dist/img/user/<?php echo  $data['profile'] ?>" alt="Profile">
+                                        </div>
+                                    <?php } ?>
                                     <div class="form-group">
                                         <label for="inputClientCompany">Profile Picture</label>
                                         <input type="file" name="image" id="inputClientCompany" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <input type="submit" name="update_user" class="btn btn-primary" value="Update">
+                                        <input type="submit" name="update_user" class="btn btn-warning" value="Update">
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +110,7 @@ include('include/dashboard/sidebar.php');
 
                             $user_id   = $data['user_id'];
                             $password   = $data['password'];
-                            $join_date   = $data['join_date'];
+                            $profile   = $data['profile'];
 
                             $address    = $_POST['address'];
                             $role       = $_POST['role'];
@@ -111,19 +118,24 @@ include('include/dashboard/sidebar.php');
                             // image upload 
                             $image       = $_FILES['image']['name'];
                             $temp_locat = $_FILES['image']['tmp_name'];
-                            $rand = rand(0, 99999);
-                            $rand_two = rand(0, 99999);
-                            $final_img = $image;
+                            $final_img = $profile;
                             if (!empty($image)) {
+                                $rand = rand(0, 99999);
+                                $rand_two = rand(0, 99999);
                                 $final_img = $rand . "_" . $rand_two . "_" . $image;
                             }
                             //move image
                             move_uploaded_file($temp_locat, "dist/img/user/" . $final_img);
 
-                            $data_update = "UPDATE user SET user_name='$name',email='$email',phone='$phone',password='$password',user_address='$address',user_role='$role',user_status='$status',profile='$final_img',join_date='$join_date' WHERE user_id = '$user_id'";
+                            $data_update = "UPDATE user SET user_name='$name',email='$email',phone='$phone',user_address='$address',user_role='$role',user_status='$status',profile='$final_img' WHERE user_id = '$user_id'";
 
                             $sql = mysqli_query($db, $data_update);
-                        } 
+                            if ($sql) {
+                                header('location:user.php');
+                            } else {
+                                mysqli_error($db);
+                            }
+                        }
                         ?>
                     </div>
                     <!-- /.card-body -->

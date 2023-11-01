@@ -1,3 +1,7 @@
+<?php
+include('include/dashboard/db.php');
+ob_start();
+?>
 <!DOCTYPE html>
 <html>
 
